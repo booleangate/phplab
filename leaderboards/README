@@ -1,0 +1,67 @@
+Hi there,
+
+To install this bad boy, there are only a few steps.
+
+Application Installation
+------------------------
+This applications expects to be served from the document root and ran on Apache with mod_rewrite and .htaccess enabled, and mysqli.
+
+This was tested with PHP 5.5.
+
+
+Database Setup
+------------------------
+Create a database and create the tables that are defined in tables.sql.
+
+
+Application Configuration
+------------------------
+Edit the DB_* defines in config.php to reflect your local database environment.
+
+
+Test Data Generation
+------------------------
+There's a simple Bash script at bin/generate-test-data.sh that will aide in the creation of test data.
+
+./generate-test-data.sh localhost 15 3000000
+
+This will create 3,000,000 scores with 15 background threads by calling a API endpoint on the host specified.  The script will complete almost immediately but you'll have to check on the status of the
+threads yourself.  You'll see some output when everything is done.
+
+
+REST API Endpoints
+------------------------
+
+Adding a New Score.
+
+	POST /api/score HTTP/1.1
+	Content-Type: application/x-www-form-urlencoded
+
+	signed_request=cjv1NZlSRCthYq9rAyWEidD7QE98p0PKZvVwpQ7gPwg.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImV4cGlyZXMiOjEzMjI4NTYwMDAsImlzc3VlZF9hdCI6MTMyMjg1MDc1NCwib2F1dGhfdG9rZW4iOiJBQUFCelMwYVhTMDBCQUlob0I1bmhrYnZJU0xLSGpNb3ZIN2ZTTmMzWkFxbnVNT2NvYmpJUHoxNGFmWXV1dzBkbkZzeVpBV2JHU2MycXZBakdjRzZUQ1RWZzBLOUVGUWJ5WkJwNTU0ZXE5M2FTWkFXZXpVeEYiLCJ1c2VyIjp7ImNvdW50cnkiOiJ1cyIsImxvY2FsZSI6ImVuX1VTIiwiYWdlIjp7Im1pbiI6MjF9fSwidXNlcl9pZCI6IjEwMDAwMzI5MTY2MTkwOSJ9&user_score=75834
+
+The Facebook signed request is used to determine not only the validity and user ID of the request, but also the time of the request (the `issued_at` field).
+Also, the request is expected to not have expired.
+
+Reports: How Many Players?
+
+	GET /api/report/countUsers
+
+Reports: How Many Players Today (How Many Scored Today)?
+
+	GET /api/report/countUsersToday
+
+Reports: Top 10 Players
+
+	GET /api/report/topScorers
+
+Reports: Top 10 Gainers
+
+	GET /api/report/topGainers
+
+These are players with the most improved scores over last week.
+
+Testing: Generate Data
+
+	POST /api/test/generate?count=50000
+
+Creates 50,000 test scores.  The scores will have random dates (in the range of 3 weeks ago to today), scores, and user IDs (100,000 possible users)
