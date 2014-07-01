@@ -1,6 +1,5 @@
-Hi there,
+This is a small leaderboard application that was created as an exercise and uses no external libraries. I based the application structure on that of Zend Framework.
 
-To install this bad boy, there are only a few steps.
 
 Application Installation
 ------------------------
